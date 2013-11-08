@@ -1,4 +1,6 @@
 ExpressDirectAPI
 ================
 
-An interface for creating quickly API using Express. Now supporting mongodb and mongoose.
+An interface for creating quickly accessing database data. Useful for creating quickly APIs with Express.
+
+Currently supporting mongodb and mongoose.
