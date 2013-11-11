@@ -1,8 +1,7 @@
 "use strict";
 
 var dbUri = 'mongodb://localhost/baseapi-test-db';
-var request = require('supertest'),
-  utility = require('../lib/util.js'),
+var utility = require('../lib/util.js'),
   DirectAPI = require('../lib/directAPI'),
   mongoose = require('mongoose'),
   clearDB = require('mocha-mongoose')(dbUri); //automatically clears the database at every run
@@ -49,8 +48,8 @@ describe("base_api", function () {
 
   var createNewElement = function (callback, timestamp, elementName, toUsers) {
     elementName = elementName || 'element1';
-    toUsers = toUsers || new Array();
-    var res = createRes(function (data){
+    toUsers = toUsers || [];
+    var res = createRes(function (data) {
       expect(data['name']).to.eql(elementName);
       callback(data);
     });
@@ -143,8 +142,7 @@ describe("base_api", function () {
   });
 
   it("should not update an element correctly", function (done) {
-    var timestamp = new Date(),
-      res = createRes(function (data) {
+    var res = createRes(function (data) {
         expect(data.error).to.eql('missing updated model');
         done();
       });
@@ -190,7 +188,7 @@ describe("base_api", function () {
   });
 
   it("should return an error if newConstraints is called without longitude or latitude", function (done) {
-    var constraints = base.nearConstraints(createRes(function (error) {
+    base.nearConstraints(createRes(function (error) {
       expect(error.error).to.eql('missing longitude or latitude');
       done();
     }));
