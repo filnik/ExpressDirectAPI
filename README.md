@@ -26,7 +26,7 @@ $ cd ascoltatori
 $ npm install
 ```
 
-# LICENSE - MIT
+## LICENSE - MIT
 
 The MIT License (MIT)
 
