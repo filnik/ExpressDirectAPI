@@ -1,4 +1,4 @@
-expressDirectApi
+expressToAPI
 ================
 
 [![Build Status](https://travis-ci.org/filnik/ExpressDirectAPI.png?branch=master)](https://travis-ci.org/filnik/ExpressDirectAPI)

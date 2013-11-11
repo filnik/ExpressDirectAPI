@@ -1,16 +1,16 @@
 {
-  "name": "expressDirectApi",
+  "name": "expresstoapi",
   "version": "0.0.1",
   "description": "An interface for creating quickly API using Express.",
-  "main": "base_api.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/filnik/expressDirectApi.git"
+    "url": "git://github.com/filnik/expresstoapi.git"
   },
   "author": "Filippo De Pretto <filippo.depretto@mavigex.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/filnik/expressDirectApi/issues"
+    "url": "https://github.com/filnik/expresstoapi/issues"
   },
   "dependencies": {
     "express": "~3.2.6",
