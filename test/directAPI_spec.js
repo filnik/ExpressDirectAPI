@@ -3,7 +3,7 @@
 var dbUri = 'mongodb://localhost/baseapi-test-db';
 var request = require('supertest'),
   utility = require('../lib/util.js'),
-  BaseAPI = require('../lib/directAPI'),
+  DirectAPI = require('../lib/directAPI'),
   mongoose = require('mongoose'),
   clearDB = require('mocha-mongoose')(dbUri); //automatically clears the database at every run
 
@@ -25,7 +25,8 @@ describe("base_api", function () {
           name        : {type: String, required: true},
           loc         : {lat: Number, lng: Number},
           timestamp   : {type: Date, default: new Date()},
-          radius      : {type: Number}
+          radius      : {type: Number},
+          toUsers     : {type: Array, default: []}
         });
 
       Model.index({
@@ -33,25 +34,34 @@ describe("base_api", function () {
       });
 
       Model = mongoose.model('Model', Model);
-      base = new BaseAPI(Model, "model");
+      base = new DirectAPI(Model, "model");
+
+      // drop all the indexes created by other tests
+      Model.collection.dropAllIndexes(function (err, results) {
+        if (err) {
+          console.log(err);
+        }
+      });
 
       done();
     });
   });
 
-  var createNewElement = function (callback, timestamp, elementName) {
+  var createNewElement = function (callback, timestamp, elementName, toUsers) {
     elementName = elementName || 'element1';
+    toUsers = toUsers || new Array();
     var res = createRes(function (data){
       expect(data['name']).to.eql(elementName);
       callback(data);
     });
 
-    base.newElementInModel(res,'element1',
+    base.newElementInModel(res, elementName,
       {
         name: elementName,
         loc: {lat: 1, lng: 2},
         radius: 30,
-        timestamp: timestamp
+        timestamp: timestamp,
+        toUsers : toUsers
       });
   }
 
@@ -61,6 +71,22 @@ describe("base_api", function () {
           expect(data).to.eql([]);
           done();
       }));
+  });
+
+  it("should get items filtered by user ", function (done) {
+    createNewElement(function(data){
+      createNewElement(function(data){
+        createNewElement(function(data){
+          base.authGetFromModel({session: {}, user: {_id: 'id1'}}, createRes(
+            function (data) {
+              expect(data[0]['name']).to.eql('element1');
+              expect(data[1]['name']).to.eql('element3');
+              expect(data[2]).to.eql(undefined);
+              done();
+            }));
+        }, new Date(), 'element3', ['id1']);
+      }, new Date(), 'element2', ['id2', 'id3']);
+    }, new Date(), 'element1', ['id1', 'id2']);
   });
 
   it("should add (only) a new element correctly", function (done) {
@@ -80,6 +106,21 @@ describe("base_api", function () {
     }, timestamp);
   });
 
+  it("should not add a new element correctly", function (done) {
+    var timestamp = new Date(),
+      res = createRes(function (data) {
+        expect(data.error).to.eql("missing model's name");
+        done();
+      });
+
+    base.newElementInModel(res, undefined,
+      {
+        loc: {lat: 1, lng: 2},
+        radius: 30,
+        timestamp: timestamp
+      });
+  });
+
   it("should update an element correctly", function (done) {
     var timestamp = new Date(),
       res = createRes(function (numRowAffected) {
@@ -91,11 +132,30 @@ describe("base_api", function () {
         done();
       });
     createNewElement(function(data){
-      base.updateModelCustom(res, {
-        name: "changed"
-      }, data._id.toString());
+      // use updateModel instead of updateModelCustom to cover more lines in the test
+      base.updateModel(
+        { body: {
+            name: "changed"
+          }
+        }, res, data._id.toString());
 
     }, timestamp);
+  });
+
+  it("should not update an element correctly", function (done) {
+    var timestamp = new Date(),
+      res = createRes(function (data) {
+        expect(data.error).to.eql('missing updated model');
+        done();
+      });
+      base.updateModel({ body: undefined }, res, 'id');
+  });
+
+  it("should handle correctly an error with checkstatus", function (done) {
+    base._checkStatus('commonErr', createRes(function (data){
+      expect(data.error).to.eql('commonErr');
+      done();
+    }));
   });
 
   it("should get the last element inserted", function (done) {
