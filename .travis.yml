@@ -1,5 +1,5 @@
 script:
- - make publish-coverage
+ - make coverage
 language: node_js
 node_js:
   - 0.8
