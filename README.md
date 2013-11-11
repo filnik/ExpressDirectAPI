@@ -1,7 +1,7 @@
 expressToAPI
 ================
 
-[![Build Status](https://travis-ci.org/filnik/expresstoapi.png?branch=master)](https://travis-ci.org/filnik/expresstoapi) [![Coverage Status](https://coveralls.io/repos/filnik/ExpressDirectAPI/badge.png?branch=master)](https://coveralls.io/r/filnik/ExpressDirectAPI?branch=master)
+[![Build Status](https://travis-ci.org/filnik/expresstoapi.png?branch=master)](https://travis-ci.org/filnik/expresstoapi) [![Coverage Status](https://coveralls.io/repos/filnik/expresstoapi/badge.png?branch=master)](https://coveralls.io/r/filnik/expresstoapi?branch=master)
 
 [![NPM](https://nodei.co/npm/expresstoapi.png)](https://nodei.co/npm/expresstoapi/)
 [![NPM](https://nodei.co/npm-dl/expresstoapi.png)](https://nodei.co/npm/expresstoapi/)
