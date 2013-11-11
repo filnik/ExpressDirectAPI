@@ -22,7 +22,6 @@
     "sinon": "~1.7.3",
     "sinon-chai": "~2.4.0",
     "coveralls": "~2.0.16",
-    "supertest": "~0.8.1",
     "mocha-mongoose": "~0.1.5",
     "istanbul": "~0.1.44"
   },
