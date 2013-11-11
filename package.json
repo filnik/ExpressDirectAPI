@@ -5,12 +5,12 @@
   "main": "base_api.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/filnik/ExpressDirectAPI.git"
+    "url": "git://github.com/filnik/expressDirectApi.git"
   },
   "author": "Filippo De Pretto <filippo.depretto@mavigex.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/filnik/ExpressDirectAPI/issues"
+    "url": "https://github.com/filnik/expressDirectApi/issues"
   },
   "dependencies": {
     "express": "~3.2.6",
