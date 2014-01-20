@@ -1,6 +1,6 @@
 {
   "name": "expresstoapi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An interface for creating quickly API using Express.",
   "main": "index.js",
   "repository": {
