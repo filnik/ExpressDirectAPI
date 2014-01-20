@@ -141,6 +141,23 @@ describe("base_api", function () {
     }, timestamp);
   });
 
+  it("should update an element correctly with query", function (done) {
+    var timestamp = new Date(),
+      res = createRes(function (numRowAffected) {
+        expect(numRowAffected).to.eql(1);
+        var res = createRes(function(data) {
+          expect(data[0]['name']).to.eql('changed');
+        });
+        base.getFromModel({session: {}}, res);
+        done();
+      });
+    createNewElement(function(data){
+      // use updateModel instead of updateModelCustom to cover more lines in the test
+      base.updateModelCustomQuery(res,
+        { name: "changed" }, {_id: data._id.toString()});
+    }, timestamp);
+  });
+
   it("should not update an element correctly", function (done) {
     var res = createRes(function (data) {
         expect(data.error).to.eql('missing updated model');
@@ -148,6 +165,7 @@ describe("base_api", function () {
       });
       base.updateModel({ body: undefined }, res, 'id');
   });
+
 
   it("should handle correctly an error with checkstatus", function (done) {
     base._checkStatus('commonErr', createRes(function (data){
