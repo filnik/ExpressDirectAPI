@@ -22,7 +22,7 @@ Install the library using git.
 
 ```
 $ git clone git://github.com/filnik/expresstoapi.git
-$ cd ascoltatori
+$ cd expresstoapi
 $ npm install
 ```
 
